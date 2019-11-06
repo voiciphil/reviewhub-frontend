@@ -1,1 +1,1 @@
-# reviewhub-frontend
+# ReviewHub Front-end
