@@ -1,12 +1,24 @@
 <template>
   <div>
+    <v-row
+      class="mx-auto"
+      style="width: 200px"
+    >
+      <v-select
+        outlined
+        label="language"
+        v-bind:items="languages"
+        v-model="selected"
+      >
+      </v-select>
+    </v-row>
     <v-row>
       <v-col
-        v-for="(repo, i) in repos"
+        v-for="(repo, i) in repos.filter(r => r.language === selected)"
         v-bind:key="i"
       >
         <v-card
-          class="mx-auto"
+          class="mx-auto mt-10"
           width="300"
           height="200"
           v-on:click="onClick(repo.link)"
@@ -36,8 +48,10 @@
 export default {
   data () {
     return {
-      // link, name, description
-      repos: []
+      // link, name, description, language
+      repos: [],
+      languages: [],
+      selected: ''
     }
   },
   methods: {

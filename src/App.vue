@@ -8,8 +8,10 @@
         <span>ReviewHub</span>
       </v-toolbar-title>
     </v-app-bar>
-    <v-spacer></v-spacer>
-    <v-content>
+
+    <v-content
+      class="mt-10"
+    >
       <RepoList/>
     </v-content>
   </v-app>
