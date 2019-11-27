@@ -1,11 +1,13 @@
 <template>
   <div>
     <v-row
+      flex
       class="mx-auto"
       style="width: 200px"
+      justify="center"
     >
       <v-select
-        outlined
+        filled
         label="language"
         v-bind:items="languages"
         v-model="selected"
@@ -21,7 +23,7 @@
           class="mx-auto mt-10"
           width="300"
           height="200"
-          v-on:click="onClick(repo.link)"
+          v-on:click="fileList(repo.link)"
         >
           <v-toolbar dark flat>
             <v-toolbar-title
@@ -41,6 +43,18 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row
+      flex
+      class="mx-auto"
+      justify="center"
+    >
+      <v-btn
+        outlined
+        v-on:click="registRepo"
+      >
+        Regist Repository
+      </v-btn>
+    </v-row>
   </div>
 </template>
 
@@ -50,12 +64,14 @@ export default {
     return {
       // link, name, description, language
       repos: [],
-      languages: [],
+      languages: ['C', 'C++', 'C#', 'CSS', 'Java', 'F#', 'Fortran', 'Go', 'HTML', 'Java', 'JavaScript', 'Kotlin', 'PHP', 'Perl', 'Python', 'R', 'Ruby', 'Rust', 'Shell', 'TypeScript', 'Vue'],
       selected: ''
     }
   },
   methods: {
-    onClick (link) {
+    fileList (link) {
+    },
+    registRepo () {
     }
   }
 }

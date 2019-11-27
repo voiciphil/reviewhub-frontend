@@ -4,27 +4,26 @@
       app
       dark
     >
-      <v-toolbar-title class="headline text-uppercase">
+      <v-toolbar-title class="headline">
         <span>ReviewHub</span>
       </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn text>sign in</v-btn>
     </v-app-bar>
 
     <v-content
       class="mt-10"
     >
-      <RepoList/>
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import RepoList from './components/RepoList'
-
 export default {
   name: 'App',
 
   components: {
-    RepoList
   },
 
   data: () => ({
