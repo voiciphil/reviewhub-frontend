@@ -38,37 +38,24 @@
         cols="8"
       >
         <v-card>
-          <v-toolbar>
+          <v-toolbar dark>
             <v-toolbar-title>Comment</v-toolbar-title>
           </v-toolbar>
-          <v-list
-            disabled
-            two-lines
+          <v-card
+            outlined
+            tile
+            v-for="(com, i) in comments"
+            v-bind:key="i"
           >
-            <v-list-item-group>
-              <template v-for="(comment, i) in comments">
-                <v-list-item
-                  v-bind:key="comment"
-                >
-                  <v-list-item-content>
-                    <v-list-item-subtitle
-                      v-text="comment.user"
-                    >
-                    </v-list-item-subtitle>
-                    <v-list-item-title
-                      v-text="comment.comment"
-                    >
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-divider
-                  v-if="i < comments.length - 1"
-                  v-bind:key="i"
-                >
-                </v-divider>
-              </template>
-            </v-list-item-group>
-          </v-list>
+            <v-card-text>
+              <div>{{ com.user }}</div>
+              <div
+                class="text--primary"
+              >
+                {{ com.comment }}
+              </div>
+            </v-card-text>
+          </v-card>
           <v-footer>
             <v-row
               flex
@@ -110,10 +97,10 @@ export default {
   data () {
     return {
       files: ['frontend/src/components/ImageList.vue', 'frontend/src/components/Input.vue', 'backend/controllers/image.js'],
-      repo: '',
-      branch: '',
+      repo: 'voiciphil/instore',
+      branch: 'master',
       comments: [],
-      comment: ''
+      comment: ``
     }
   },
   methods: {
@@ -121,13 +108,13 @@ export default {
       if (this.comment !== '') {
         this.comments.push({
           comment: this.comment,
-          user: ''
+          user: 'test'
         })
-        this.comment = ''
+        this.comment = ``
       }
     },
     go (index) {
-      const url = 'https://github.com/' + this.repo + '/blob/' + this.branch + '/' + this.files[index]
+      const url = `https://github.com/${this.repo}/blob/${this.branch}/${this.files[index]}`
       window.open(url)
     }
   }

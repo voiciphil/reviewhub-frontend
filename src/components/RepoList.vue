@@ -64,6 +64,7 @@ export default {
     return {
       // link, name, description, language
       repos: [{
+        id: 0,
         link: 'https://github.com/voiciphil/instore',
         name: 'instore',
         description: 'Save the pictures on Instagram!',

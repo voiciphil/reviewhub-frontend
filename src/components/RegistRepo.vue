@@ -2,7 +2,7 @@
   <div class="body">
     <v-card
       outlined
-      class="mx-auto mt-10"
+      class="ma-auto"
       max-width="600"
     >
       <v-row
@@ -20,7 +20,32 @@
         </v-col>
       </v-row>
       <v-row
-        class="mx-10 mt-n5"
+        class="mx-10 mt-n10"
+      >
+        <v-col>
+          <v-select
+            outlined
+            label="Language"
+            v-bind:items="languages"
+            v-model="selectedLanguage"
+          >
+          </v-select>
+        </v-col>
+      </v-row>
+      <v-row
+        class="mx-10 mt-n10"
+      >
+        <v-col>
+          <v-textarea
+            outlined
+            label="content"
+            v-model="content"
+          >
+          </v-textarea>
+        </v-col>
+      </v-row>
+      <v-row
+        class="mx-10 mt-n10"
       >
         <v-col>
           <v-select
@@ -33,7 +58,7 @@
         </v-col>
       </v-row>
       <v-row
-        class="mx-10 mt-n5"
+        class="mx-10 mt-n10"
         cols="12"
       >
         <v-col
@@ -64,26 +89,39 @@
         class="mx-10 mt-n10"
       >
         <v-col>
-          <v-list disabled dense>
-            <v-list-item-group>
-              <v-list-item
-                v-for="(file, i) in files"
-                v-bind:key="i"
-              >
-                {{ file }}
-              </v-list-item>
-            </v-list-item-group>
-          </v-list>
+          <v-card outlined>
+            <v-list
+              disabled
+              dense
+              outlined
+            >
+              <v-list-item-group>
+                <template v-for="(file, i) in files">
+                  <v-list-item
+                    v-bind:key="i"
+                  >
+                    {{ `(${file.branch}) ${file.name}` }}
+                  </v-list-item>
+                  <v-divider
+                    v-if="i < files.length - 1"
+                    v-bind:key="i"
+                  >
+                  </v-divider>
+                </template>
+              </v-list-item-group>
+            </v-list>
+          </v-card>
         </v-col>
       </v-row>
       <v-row
         flex
-        class="mb-10 mt-10"
+        class="mb-10"
         justify="center"
       >
         <v-btn
           outlined
           primary
+          v-on:click="regist"
         >
           regist
         </v-btn>
@@ -99,31 +137,69 @@ export default {
       repos: [],
       branches: [],
       files: [],
+      languages: ['C', 'C++', 'C#', 'CSS', 'Java', 'F#', 'Fortran', 'Go', 'HTML', 'Java', 'JavaScript', 'Kotlin', 'PHP', 'Perl', 'Python', 'R', 'Ruby', 'Rust', 'Shell', 'TypeScript', 'Vue'],
+      content: ``,
       selectedRepo: '',
       selectedBranch: '',
+      selectedLanguage: '',
       fileName: ''
     }
   },
   methods: {
     addFile () {
-      if (this.fileName !== '' && this.files.indexOf(this.fileName) === -1) {
-        this.files.push(this.fileName)
+      if (this.fileName !== '' && this.selectedBranch !== '' && this.files.findIndex(i => i.name === this.fileName && i.branch === this.selectedBranch) === -1) {
+        // if (this.check()) {
+        this.files.push({
+          branch: this.selectedBranch,
+          name: this.fileName
+        })
+        // }
       }
       this.fileName = ''
+      this.selectedBranch = ''
+    },
+    check () {
+      let flag = false
+      this.$http.get(`https://api.github.com/repos/${this.selectedRepo}/contents/${this.fileName}`, {
+        params: {
+          ref: this.selectedBranch
+        }
+      }).then((result) => {
+        flag = true
+        console.log(flag)
+      })
+      console.log(flag)
+      return flag
     },
     getBranch () {
       this.branches = []
       this.selectedBranch = ''
-      this.$http.get('https://api.github.com/repos/' + this.selectedRepo + '/branches').then((result) => {
+      this.$http.get(`https://api.github.com/repos/${this.selectedRepo}/branches`).then((result) => {
         for (let i = 0; i < result.data.length; i++) {
           this.branches.push(result.data[i].name)
         }
       })
+    },
+    regist () {
+      /*
+      const post = {
+        repository_info: 'https://github.com/' + this.selectedRepo,
+        language: this.selectedLanguage,
+        content: this.content,
+        name: this.selectedRepo
+      }
+      const files = []
+      for (let i = 0; i < this.files.length; i++) {
+        files.push({
+
+        })
+      }
+      */
     }
   },
   created () {
-    const user = 'kimyuuum'
-    this.$http.get('https://api.github.com/users/' + user + '/repos').then((result) => {
+    const user = 'voiciphil'
+    this.$http.get(`https://api.github.com/users/${user}/repos`).then((result) => {
       for (let i = 0; i < result.data.length; i++) {
         this.repos.push(result.data[i].full_name)
       }

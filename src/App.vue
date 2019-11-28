@@ -8,7 +8,7 @@
         <span
           v-on:click="home"
         >
-          ReviewHub
+          Review Hub
         </span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
