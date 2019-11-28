@@ -7,7 +7,7 @@
       justify="center"
     >
       <v-select
-        filled
+        outlined
         label="language"
         v-bind:items="languages"
         v-model="selected"
@@ -72,6 +72,7 @@ export default {
     fileList (link) {
     },
     registRepo () {
+      this.$router.push('regist-repo')
     }
   }
 }

@@ -1,14 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import RepoList from '../components/RepoList'
+import RegistRepo from '../components/RegistRepo.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'repo-list',
     component: RepoList
+  },
+  {
+    path: '/regist-repo',
+    name: 'regist-repo',
+    component: RegistRepo
   }
 ]
 

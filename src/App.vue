@@ -5,7 +5,11 @@
       dark
     >
       <v-toolbar-title class="headline">
-        <span>ReviewHub</span>
+        <span
+          v-on:click="home"
+        >
+          ReviewHub
+        </span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn text>sign in</v-btn>
@@ -22,12 +26,15 @@
 <script>
 export default {
   name: 'App',
-
   components: {
   },
-
   data: () => ({
     //
-  })
+  }),
+  methods: {
+    home () {
+      this.$router.push('/')
+    }
+  }
 }
 </script>
