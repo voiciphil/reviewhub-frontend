@@ -45,7 +45,7 @@
     </v-row>
     <v-row
       flex
-      class="mx-auto"
+      class="mx-auto mt-10"
       justify="center"
     >
       <v-btn
@@ -63,13 +63,19 @@ export default {
   data () {
     return {
       // link, name, description, language
-      repos: [],
+      repos: [{
+        link: 'https://github.com/voiciphil/instore',
+        name: 'instore',
+        description: 'Save the pictures on Instagram!',
+        language: 'Vue'
+      }],
       languages: ['C', 'C++', 'C#', 'CSS', 'Java', 'F#', 'Fortran', 'Go', 'HTML', 'Java', 'JavaScript', 'Kotlin', 'PHP', 'Perl', 'Python', 'R', 'Ruby', 'Rust', 'Shell', 'TypeScript', 'Vue'],
       selected: ''
     }
   },
   methods: {
     fileList (link) {
+      this.$router.push('file-list')
     },
     registRepo () {
       this.$router.push('regist-repo')

@@ -51,6 +51,7 @@
         >
           <v-btn
             outlined
+            primary
             height="56"
             v-on:click="addFile"
             v-on:keyup.enter="addFile"
@@ -82,6 +83,7 @@
       >
         <v-btn
           outlined
+          primary
         >
           regist
         </v-btn>
@@ -120,7 +122,7 @@ export default {
     }
   },
   created () {
-    const user = ''
+    const user = 'kimyuuum'
     this.$http.get('https://api.github.com/users/' + user + '/repos').then((result) => {
       for (let i = 0; i < result.data.length; i++) {
         this.repos.push(result.data[i].full_name)
