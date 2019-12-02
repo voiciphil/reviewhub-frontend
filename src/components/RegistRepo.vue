@@ -123,7 +123,7 @@
           primary
           v-on:click="regist"
         >
-          regist
+          register
         </v-btn>
       </v-row>
     </v-card>
@@ -147,13 +147,11 @@ export default {
   },
   methods: {
     addFile () {
-      if (this.fileName !== '' && this.selectedBranch !== '' && this.files.findIndex(i => i.name === this.fileName && i.branch === this.selectedBranch) === -1) {
-        // if (this.check()) {
+      if (this.fileName !== '' && this.selectedBranch !== '') {
         this.files.push({
           branch: this.selectedBranch,
           name: this.fileName
         })
-        // }
       }
       this.fileName = ''
       this.selectedBranch = ''
@@ -181,24 +179,27 @@ export default {
       })
     },
     regist () {
-      /*
       const post = {
         repository_info: 'https://github.com/' + this.selectedRepo,
         language: this.selectedLanguage,
         content: this.content,
         name: this.selectedRepo
       }
-      const files = []
-      for (let i = 0; i < this.files.length; i++) {
-        files.push({
-
-        })
-      }
-      */
+      this.$http.post('http://localhost:80/post', post).then((result) => {
+        for (let i = 0; i < this.files.length; i++) {
+          this.$http.post('http://localhost:80/file', {
+            post_idx: result.data.idx,
+            file_name: this.files[i].name,
+            branch_info: this.files[i].branch
+          }).then((result) => {
+          })
+        }
+        this.$router.push('/')
+      })
     }
   },
   created () {
-    const user = 'voiciphil'
+    const user = this.$store.getters.getUser
     this.$http.get(`https://api.github.com/users/${user}/repos`).then((result) => {
       for (let i = 0; i < result.data.length; i++) {
         this.repos.push(result.data[i].full_name)

@@ -12,7 +12,11 @@
         </span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn text>sign in</v-btn>
+      <v-btn
+        text
+      >
+        <a href="http://localhost:80/login">{{ user }}</a>
+      </v-btn>
     </v-app-bar>
 
     <v-content
@@ -29,11 +33,14 @@ export default {
   components: {
   },
   data: () => ({
-    //
+    user: 'sign in'
   }),
   methods: {
     home () {
       this.$router.push('/')
+    },
+    created () {
+      this.user = this.$store.getters.getUser
     }
   }
 }

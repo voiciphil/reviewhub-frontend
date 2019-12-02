@@ -2,6 +2,7 @@
   <div>
     <v-row
       cols="12"
+      class="mx-10"
     >
       <v-col
         cols="4"
@@ -12,14 +13,14 @@
           </v-toolbar>
           <v-list>
             <v-list-item-group>
-              <template v-for="(file, i) in files">
+              <template v-for="(f, i) in files">
                 <v-list-item
-                  v-bind:key="file"
+                  v-bind:key="f.file"
                   v-on:click="go(i)"
                 >
                   <v-list-item-content>
                     <v-list-item-title
-                      v-text="file"
+                      v-text="f.file"
                     >
                     </v-list-item-title>
                   </v-list-item-content>
@@ -96,27 +97,54 @@
 export default {
   data () {
     return {
-      files: ['frontend/src/components/ImageList.vue', 'frontend/src/components/Input.vue', 'backend/controllers/image.js'],
-      repo: 'voiciphil/instore',
-      branch: 'master',
+      files: [],
+      repo: '',
       comments: [],
-      comment: ``
+      comment: ``,
+      repoid: -1
     }
   },
   methods: {
     giveComment () {
       if (this.comment !== '') {
-        this.comments.push({
-          comment: this.comment,
-          user: 'test'
+        this.$http.post('http://localhost:80/comment', {
+          post_idx: this.repoid,
+          content: this.comment,
+          user_name: this.repo.split('/')[0]
+        }).then((result) => {
+          this.comments.push({
+            comment: this.comment,
+            user: this.repo.split('/')[0]
+          })
+          this.comment = ``
         })
-        this.comment = ``
       }
     },
     go (index) {
-      const url = `https://github.com/${this.repo}/blob/${this.branch}/${this.files[index]}`
+      const url = `https://github.com/${this.repo}/blob/${this.files[index].branch}/${this.files[index].file}`
       window.open(url)
     }
+  },
+  created () {
+    this.repoid = this.$store.getters.getId
+    this.repo = this.$store.getters.getRepoName
+    this.$http.get(`http://localhost:80/file/${this.repoid}`).then((result) => {
+      this.files = []
+      for (let i = 0; i < result.data.length; i++) {
+        this.files.push({
+          file: result.data[i].file_name,
+          branch: result.data[i].branch_info
+        })
+      }
+    })
+    this.$http.get(`http://localhost:80/comment/${this.repoid}`).then((result) => {
+      for (let i = 0; i < result.data.length; i++) {
+        this.comments.push({
+          comment: result.data[i].content,
+          user: result.data[i].user_name
+        })
+      }
+    })
   }
 }
 </script>
